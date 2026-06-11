@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth" style="scroll-padding-top: 5rem;">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elite Clean — Find the Best Laundry Services Near You</title>
+    <meta name="description"
+        content="Compare and book nearby laundry partners through one platform. Pickup, cleaning, and delivery — all in one place.">
+
+    <!-- Tailwind CSS v3 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts for modern typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <!-- Remix Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: '#086e96',        /* Dark blue for main title */
+                        brandLight: '#73a5bd',   /* Lighter blue for nav and subtext */
+                        brandBg: '#eef6fc',      /* Very light blue background */
+                        orangeBtn: '#fa7354',    /* Orange button */
+                        orangeHover: '#e36243',  /* Orange hover state */
+                    },
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .hero-container {
+            background-color: var(--brandBg, #eef6fc);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bg-curve {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .custom-wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            overflow: hidden;
+            line-height: 0;
+            transform: rotate(180deg);
+            z-index: 0;
+        }
+
+        .custom-wave svg {
+            position: relative;
+            display: block;
+            width: calc(142% + 1.3px);
+            height: 200px;
+        }
+
+        .custom-wave .shape-fill {
+            fill: #ffffff;
+        }
+
+        /* Scroll-reveal animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.7s cubic-bezier(.22, 1, .36, 1), transform 0.7s cubic-bezier(.22, 1, .36, 1);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Order tracker */
+        .tracker-step {
+            position: relative;
+        }
+
+        .tracker-step::after {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: calc(50% + 24px);
+            width: calc(100% - 48px);
+            height: 3px;
+            background: linear-gradient(90deg, #086e96 0%, #73a5bd 100%);
+            z-index: 0;
+        }
+
+        .tracker-step:last-child::after {
+            display: none;
+        }
+
+        /* Pulse animation for live dot */
+        @keyframes pulse-ring {
+            0% {
+                transform: scale(.8);
+                opacity: 1;
+            }
+
+            80%,
+            100% {
+                transform: scale(2.2);
+                opacity: 0;
+            }
+        }
+
+        .pulse-dot::before {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            background: rgba(250, 115, 84, .4);
+            animation: pulse-ring 1.5s ease-out infinite;
+        }
+
+        /* Counter animation */
+        .counter {
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* Star rating */
+        .star-filled {
+            color: #facc15;
+        }
+
+        .star-empty {
+            color: #d1d5db;
+        }
+
+        /* Hero image premium frame */
+        .hero-img-wrapper {
+            position: relative;
+            border-radius: 1.5rem;
+            overflow: hidden;
+            box-shadow:
+                0 25px 50px -12px rgba(8, 110, 150, .25),
+                0 0 0 4px rgba(8, 110, 150, .08);
+            transition: transform 0.5s cubic-bezier(.22, 1, .36, 1), box-shadow 0.5s ease;
+        }
+
+        .hero-img-wrapper:hover {
+            transform: scale(1.02) translateY(-4px);
+            box-shadow:
+                0 30px 60px -15px rgba(8, 110, 150, .3),
+                0 0 0 4px rgba(250, 115, 84, .2);
+        }
+
+        .hero-img-wrapper::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 1.5rem;
+            padding: 3px;
+            background: linear-gradient(135deg, #086e96, #fa7354, #73a5bd, #086e96);
+            background-size: 300% 300%;
+            animation: gradient-shift 5s ease infinite;
+            -webkit-mask:
+                linear-gradient(#fff 0 0) content-box,
+                linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        @keyframes gradient-shift {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Floating accents around the image */
+        .hero-accent {
+            position: absolute;
+            border-radius: 50%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .hero-accent-1 {
+            width: 80px;
+            height: 80px;
+            background: rgba(250, 115, 84, .15);
+            top: -20px;
+            right: -15px;
+            animation: float-slow 4s ease-in-out infinite;
+        }
+
+        .hero-accent-2 {
+            width: 50px;
+            height: 50px;
+            background: rgba(8, 110, 150, .12);
+            bottom: -10px;
+            left: -10px;
+            animation: float-slow 5s ease-in-out infinite reverse;
+        }
+
+        .hero-accent-3 {
+            width: 30px;
+            height: 30px;
+            background: rgba(250, 115, 84, .2);
+            top: 40%;
+            left: -18px;
+            animation: float-slow 3.5s ease-in-out infinite;
+        }
+
+        @keyframes float-slow {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-12px);
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-white min-h-screen text-gray-800">
+
+    <div id="home" class="hero-container min-h-screen flex flex-col pb-20">
+
+        <!-- The background wave -->
+        <div class="custom-wave">
+            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"
+                preserveAspectRatio="none">
+                <path
+                    d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
+                    class="shape-fill"></path>
+            </svg>
+        </div>
+
+        <div class="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 relative z-10 flex-grow flex flex-col pt-24 md:pt-28">
+
+            <!-- Header & Navigation Bar -->
+            <header class="fixed top-0 left-0 w-full z-50 bg-white/90 backdrop-blur-md shadow-sm transition-all py-4">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center w-full">
+                    <!-- Logo -->
+                    <div class="flex items-center gap-2">
+                        <img src="C:\Users\harin\OneDrive\Desktop\laundary app\loundery logo.png" alt="Laundry Logo"
+                            class="h-12 w-12 rounded-md">
+                        <div>
+                            <h1 class="font-bold text-lg leading-none text-brand">ELITE</h1>
+                            <p class="font-medium text-sm leading-none text-brand">CLEAN</p>
+                        </div>
+                    </div>
+
+                    <!-- Desktop Navigation -->
+                    <nav class="hidden md:flex items-center gap-6 lg:gap-10 ml-auto mr-8">
+                        <a href="#home"
+                            class="text-brand hover:text-orangeBtn font-semibold text-sm transition-colors">Home</a>
+                        <a href="#how-it-works"
+                            class="text-brandLight hover:text-brand font-medium text-sm transition-colors">How It
+                            Works</a>
+                        <a href="#partners"
+                            class="text-brandLight hover:text-brand font-medium text-sm transition-colors">Partners</a>
+                        <a href="#services"
+                            class="text-brandLight hover:text-brand font-medium text-sm transition-colors">Services</a>
+                        <a href="#tracking"
+                            class="text-brandLight hover:text-brand font-medium text-sm transition-colors">Track
+                            Order</a>
+                        <a href="#contact"
+                            class="text-brandLight hover:text-brand font-medium text-sm transition-colors">Contact</a>
+                    </nav>
+
+                    <!-- Search Bar -->
+                    <div
+                        class="hidden md:flex items-center bg-gray-100 rounded-full px-4 py-2 shadow-sm border border-gray-200">
+                        <i class="ri-search-line text-brandLight mr-2 font-bold"></i>
+                        <input type="text" class="bg-transparent outline-none w-24 lg:w-32 text-sm text-brand"
+                            placeholder="Search...">
+                    </div>
+
+                    <!-- Mobile menu button -->
+                    <button class="md:hidden text-brand text-2xl">
+                        <i class="ri-menu-3-line"></i>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Main Content / Hero -->
+            <main class="flex-grow flex items-center pt-4 md:pt-8">
+                <div class="w-full flex flex-col md:flex-row items-center justify-between gap-12">
+
+                    <!-- Left Column: Text -->
+                    <div class="w-full md:w-1/2 text-center md:text-left pt-10">
+                        <p
+                            class="text-orangeBtn uppercase tracking-widest font-semibold text-xs md:text-sm mb-4 md:mb-6 flex items-center justify-center md:justify-start gap-2">
+                            <i class="ri-shield-star-line"></i> Trusted Laundry Aggregator Platform
+                        </p>
+                        <h1
+                            class="text-5xl md:text-6xl lg:text-7xl font-black text-brand leading-[1.05] mb-4 md:mb-6 tracking-tighter">
+                            Find the Best<br>Laundry Services<br>Near You
+                        </h1>
+
+                        <p class="text-brandLight text-sm md:text-base leading-relaxed mb-8 max-w-lg">
+                            Compare ratings, prices &amp; delivery times from multiple laundry partners in your area.
+                            Book a pickup in seconds — we handle the rest.
+                        </p>
+
+                        <!-- Location Search -->
+                        <div class="flex flex-col sm:flex-row gap-3 max-w-lg mb-6">
+                            <div class="flex-grow relative">
+                                <i
+                                    class="ri-map-pin-line absolute left-4 top-1/2 -translate-y-1/2 text-orangeBtn text-lg"></i>
+                                <input id="location-search" type="text" placeholder="Enter your location or area..."
+                                    class="w-full pl-11 pr-4 py-3.5 rounded-xl border border-gray-200 bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-brand/40 focus:border-brand text-sm transition-all">
+                            </div>
+                            <button id="book-pickup-btn"
+                                class="bg-orangeBtn hover:bg-orangeHover text-white px-8 py-3.5 rounded-xl font-semibold text-sm transition-all shadow-lg shadow-orangeBtn/30 flex items-center justify-center gap-2 whitespace-nowrap hover:scale-[1.03] active:scale-[.98]">
+                                <i class="ri-truck-line text-lg"></i> Book Pickup
+                            </button>
+                        </div>
+
+                        <!-- Trust badges -->
+                        <div class="flex flex-wrap items-center gap-4 text-xs text-brandLight">
+                            <span class="flex items-center gap-1"><i class="ri-user-star-line text-orangeBtn"></i>
+                                10,000+ Happy Customers</span>
+                            <span class="flex items-center gap-1"><i class="ri-store-2-line text-orangeBtn"></i> 200+
+                                Laundry Partners</span>
+                            <span class="flex items-center gap-1"><i class="ri-time-line text-orangeBtn"></i> 24hr
+                                Delivery</span>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Hero Image -->
+                    <div class="w-full md:w-[55%] flex justify-center md:justify-end mt-12 md:mt-0">
+                        <div class="relative z-20 max-w-2xl w-full">
+                            <!-- Decorative floating accents -->
+                            <div class="hero-accent hero-accent-1"></div>
+                            <div class="hero-accent hero-accent-2"></div>
+                            <div class="hero-accent hero-accent-3"></div>
+
+                            <!-- Image with premium frame -->
+                            <div class="hero-img-wrapper">
+                                <img src="indin women washing.jpg"
+                                    alt="Customer relaxing while laundry service handles the work"
+                                    class="w-full h-auto object-cover aspect-[4/3]">
+                                <!-- Subtle bottom gradient overlay -->
+                                <div
+                                    class="absolute bottom-0 left-0 w-full h-1/3 bg-gradient-to-t from-brand/40 to-transparent z-10 pointer-events-none">
+                                </div>
+                                <!-- Caption badge -->
+                                <div
+                                    class="absolute bottom-4 left-4 right-4 z-20 flex items-center gap-2 bg-white/90 backdrop-blur-sm rounded-xl px-4 py-2.5 shadow-lg">
+                                    <div
+                                        class="w-8 h-8 bg-orangeBtn rounded-lg flex items-center justify-center shrink-0">
+                                        <i class="ri-sparkling-line text-white text-sm"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-brand text-xs font-bold leading-tight">Tired of laundry day?</p>
+                                        <p class="text-brandLight text-[10px] leading-tight">Let our partners handle it
+                                            for you</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Services Section -->
+    <section id="services" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <p class="text-orangeBtn uppercase tracking-widest font-semibold text-sm mb-2">Services Available on Our
+                    Platform</p>
+                <h2 class="text-4xl md:text-5xl font-bold text-brand">Services Offered by Our Partners</h2>
+                <p class="text-brandLight text-sm mt-3 max-w-xl mx-auto">All our verified laundry partners offer these
+                    core services. Compare and choose the one that fits you best.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Service 1 -->
+                <div
+                    class="bg-brandBg rounded-2xl p-8 hover:shadow-xl transition-all duration-300 group border border-transparent hover:border-brandLight/30">
+                    <div
+                        class="w-16 h-16 bg-white rounded-full flex items-center justify-center mb-6 shadow-sm group-hover:scale-110 transition-transform">
+                        <i class="ri-t-shirt-2-line text-3xl text-orangeBtn"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-brand mb-3">Dry Cleaning</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed mb-6">Expert care for your delicate fabrics. We use
+                        eco-friendly solvents to remove tough stains without damaging your clothes.</p>
+                    <a href="#"
+                        class="text-brand font-semibold text-sm flex items-center gap-1 hover:text-orangeBtn transition-colors">Learn
+                        more <i class="ri-arrow-right-line"></i></a>
+                </div>
+
+                <!-- Service 2 -->
+                <div
+                    class="bg-brandBg rounded-2xl p-8 hover:shadow-xl transition-all duration-300 group border border-transparent hover:border-brandLight/30">
+                    <div
+                        class="w-16 h-16 bg-white rounded-full flex items-center justify-center mb-6 shadow-sm group-hover:scale-110 transition-transform">
+                        <i class="ri-drop-line text-3xl text-orangeBtn"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-brand mb-3">Wash & Fold</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed mb-6">Everyday laundry done right. We sort, wash,
+                        dry, and neatly fold your clothes so they are ready for the closet.</p>
+                    <a href="#"
+                        class="text-brand font-semibold text-sm flex items-center gap-1 hover:text-orangeBtn transition-colors">Learn
+                        more <i class="ri-arrow-right-line"></i></a>
+                </div>
+
+                <!-- Service 3 -->
+                <div
+                    class="bg-brandBg rounded-2xl p-8 hover:shadow-xl transition-all duration-300 group border border-transparent hover:border-brandLight/30">
+                    <div
+                        class="w-16 h-16 bg-white rounded-full flex items-center justify-center mb-6 shadow-sm group-hover:scale-110 transition-transform">
+                        <i class="ri-magic-line text-3xl text-orangeBtn"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-brand mb-3">Ironing Services</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed mb-6">Crisp, wrinkle-free clothes delivered to your
+                        door. Perfect for business wear, formal attire, and everyday shirts.</p>
+                    <a href="#"
+                        class="text-brand font-semibold text-sm flex items-center gap-1 hover:text-orangeBtn transition-colors">Learn
+                        more <i class="ri-arrow-right-line"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="py-20 bg-brandBg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-12">
+                <div>
+                    <p class="text-orange-500 uppercase tracking-widest font-semibold mb-2">
+                        INSIDE ELITE CLEAN
+                    </p>
+                    <h2 class="text-5xl font-bold text-blue-800">
+                        Our Gallery
+                    </h2>
+                </div>
+
+                <button class="bg-white px-8 py-4 rounded-full shadow-md text-blue-700 font-semibold mt-4 md:mt-0">
+                    View All Photos
+                </button>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+
+                <!-- Large Image -->
+                <div class="col-span-2 row-span-2 rounded-2xl overflow-hidden shadow-lg">
+                    <img src="LOUNDERY 1.jpg" class="w-full h-full object-cover">
+                </div>
+
+                <!-- Towels -->
+                <div class="rounded-2xl overflow-hidden shadow-md h-40 md:h-48">
+                    <img src="LOUNDERY 2.jpg" class="w-full h-full object-cover">
+                </div>
+
+                <!-- Drying Clothes -->
+                <div class="rounded-2xl overflow-hidden shadow-md h-40 md:h-48">
+                    <img src="LOUNDERY 3.webp" class="w-full h-full object-cover">
+                </div>
+
+                <!-- Laundry Worker -->
+                <div class="rounded-2xl overflow-hidden shadow-md h-40 md:h-48">
+                    <img src="LOUNDERY 2.webp" class="w-full h-full object-cover">
+                </div>
+
+                <!-- Extra Image -->
+                <div class="rounded-2xl overflow-hidden shadow-md h-40 md:h-48">
+                    <img src="loundery4.jpeg" class="w-full h-full object-cover">
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================== -->
+    <!-- HOW IT WORKS SECTION -->
+    <!-- ============================== -->
+    <section id="how-it-works" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <p class="text-orangeBtn uppercase tracking-widest font-semibold text-sm mb-2">Simple & Fast</p>
+                <h2 class="text-4xl md:text-5xl font-bold text-brand">How It Works</h2>
+                <p class="text-brandLight text-sm mt-3 max-w-xl mx-auto">Get your laundry done in 4 easy steps — from
+                    your phone to your doorstep.</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Step 1 -->
+                <div class="reveal text-center group">
+                    <div
+                        class="w-20 h-20 mx-auto bg-brandBg rounded-2xl flex items-center justify-center mb-6 shadow-sm group-hover:bg-brand group-hover:shadow-lg transition-all duration-300">
+                        <i class="ri-smartphone-line text-3xl text-brand group-hover:text-white transition-colors"></i>
+                    </div>
+                    <div
+                        class="bg-orangeBtn text-white text-xs font-bold w-7 h-7 rounded-full flex items-center justify-center mx-auto -mt-10 mb-4 relative z-10 shadow-md">
+                        1</div>
+                    <h3 class="text-lg font-bold text-brand mb-2">Place Order</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">Enter your location, select services, and schedule
+                        a convenient pickup time.</p>
+                </div>
+                <!-- Step 2 -->
+                <div class="reveal text-center group" style="transition-delay:.1s">
+                    <div
+                        class="w-20 h-20 mx-auto bg-brandBg rounded-2xl flex items-center justify-center mb-6 shadow-sm group-hover:bg-brand group-hover:shadow-lg transition-all duration-300">
+                        <i class="ri-links-line text-3xl text-brand group-hover:text-white transition-colors"></i>
+                    </div>
+                    <div
+                        class="bg-orangeBtn text-white text-xs font-bold w-7 h-7 rounded-full flex items-center justify-center mx-auto -mt-10 mb-4 relative z-10 shadow-md">
+                        2</div>
+                    <h3 class="text-lg font-bold text-brand mb-2">Match with Partner</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">We instantly match you with the best-rated laundry
+                        partner near your location.</p>
+                </div>
+                <!-- Step 3 -->
+                <div class="reveal text-center group" style="transition-delay:.2s">
+                    <div
+                        class="w-20 h-20 mx-auto bg-brandBg rounded-2xl flex items-center justify-center mb-6 shadow-sm group-hover:bg-brand group-hover:shadow-lg transition-all duration-300">
+                        <i class="ri-hand-heart-line text-3xl text-brand group-hover:text-white transition-colors"></i>
+                    </div>
+                    <div
+                        class="bg-orangeBtn text-white text-xs font-bold w-7 h-7 rounded-full flex items-center justify-center mx-auto -mt-10 mb-4 relative z-10 shadow-md">
+                        3</div>
+                    <h3 class="text-lg font-bold text-brand mb-2">Pickup &amp; Cleaning</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">Our partner picks up your clothes, washes, irons,
+                        and packs them with care.</p>
+                </div>
+                <!-- Step 4 -->
+                <div class="reveal text-center group" style="transition-delay:.3s">
+                    <div
+                        class="w-20 h-20 mx-auto bg-brandBg rounded-2xl flex items-center justify-center mb-6 shadow-sm group-hover:bg-brand group-hover:shadow-lg transition-all duration-300">
+                        <i class="ri-truck-line text-3xl text-brand group-hover:text-white transition-colors"></i>
+                    </div>
+                    <div
+                        class="bg-orangeBtn text-white text-xs font-bold w-7 h-7 rounded-full flex items-center justify-center mx-auto -mt-10 mb-4 relative z-10 shadow-md">
+                        4</div>
+                    <h3 class="text-lg font-bold text-brand mb-2">Delivery to You</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">Freshly cleaned clothes delivered straight to your
+                        doorstep, on time.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================== -->
+    <!-- NEARBY LAUNDRY PARTNERS SECTION -->
+    <!-- ============================== -->
+    <section id="partners" class="py-20 bg-brandBg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 reveal">
+                <div>
+                    <p class="text-orangeBtn uppercase tracking-widest font-semibold text-sm mb-2">Explore Partners</p>
+                    <h2 class="text-4xl md:text-5xl font-bold text-brand">Nearby Laundry Partners</h2>
+                </div>
+                <button
+                    class="mt-4 md:mt-0 bg-white px-6 py-3 rounded-full shadow-md text-brand font-semibold text-sm hover:shadow-lg transition-all flex items-center gap-2">
+                    <i class="ri-map-pin-line text-orangeBtn"></i> View All Partners
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Partner 1 -->
+                <div
+                    class="reveal bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 group border border-transparent hover:border-brandLight/20">
+                    <div class="bg-gradient-to-r from-brand to-brand/80 p-5 text-white relative">
+                        <div
+                            class="absolute top-4 right-4 bg-white/20 backdrop-blur-sm text-xs px-3 py-1 rounded-full font-medium">
+                            ⭐ 4.8</div>
+                        <h3 class="text-xl font-bold">SparkleWash Pro</h3>
+                        <p class="text-brandLight text-sm">Koramangala, 1.2 km away</p>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center gap-4 text-sm text-gray-500 mb-4">
+                            <span class="flex items-center gap-1"><i class="ri-time-line text-orangeBtn"></i> 24hr
+                                delivery</span>
+                            <span class="flex items-center gap-1"><i class="ri-star-line text-orangeBtn"></i> 4.8 (320
+                                reviews)</span>
+                        </div>
+                        <div class="flex flex-wrap gap-2 mb-5">
+                            <span class="bg-brandBg text-brand text-xs px-3 py-1 rounded-full font-medium">Wash &
+                                Fold</span>
+                            <span class="bg-brandBg text-brand text-xs px-3 py-1 rounded-full font-medium">Dry
+                                Clean</span>
+                            <span
+                                class="bg-brandBg text-brand text-xs px-3 py-1 rounded-full font-medium">Ironing</span>
+                        </div>
+                        <button
+                            class="w-full bg-orangeBtn hover:bg-orangeHover text-white py-2.5 rounded-xl font-semibold text-sm transition-all hover:scale-[1.02] active:scale-[.98] shadow-sm">Book
+                            Now</button>
+                    </div>
+                </div>
+
+                <!-- Partner 2 -->
+                <div class="reveal bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 group border border-transparent hover:border-brandLight/20"
+                    style="transition-delay:.1s">
+                    <div class="bg-gradient-to-r from-brand to-brand/80 p-5 text-white relative">
+                        <div
+                            class="absolute top-4 right-4 bg-white/20 backdrop-blur-sm text-xs px-3 py-1 rounded-full font-medium">
+                            ⭐ 4.6</div>
+                        <h3 class="text-xl font-bold">FreshFold Laundry</h3>
+                        <p class="text-brandLight text-sm">Indiranagar, 2.5 km away</p>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center gap-4 text-sm text-gray-500 mb-4">
+                            <span class="flex items-center gap-1"><i class="ri-time-line text-orangeBtn"></i> 18hr
+                                delivery</span>
+                            <span class="flex items-center gap-1"><i class="ri-star-line text-orangeBtn"></i> 4.6 (215
+                                reviews)</span>
+                        </div>
+                        <div class="flex flex-wrap gap-2 mb-5">
+                            <span class="bg-brandBg text-brand text-xs px-3 py-1 rounded-full font-medium">Wash &
+                                Fold</span>
+                            <span class="bg-brandBg text-brand text-xs px-3 py-1 rounded-full font-medium">Steam
+                                Press</span>
+                            <span class="bg-brandBg text-brand text-xs px-3 py-1 rounded-full font-medium">Shoe
+                                Cleaning</span>
+                        </div>
+                        <button
+                            class="w-full bg-orangeBtn hover:bg-orangeHover text-white py-2.5 rounded-xl font-semibold text-sm transition-all hover:scale-[1.02] active:scale-[.98] shadow-sm">Book
+                            Now</button>
+                    </div>
+                </div>
+
+                <!-- Partner 3 -->
+                <div class="reveal bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 group border border-transparent hover:border-brandLight/20"
+                    style="transition-delay:.2s">
+                    <div class="bg-gradient-to-r from-brand to-brand/80 p-5 text-white relative">
+                        <div
+                            class="absolute top-4 right-4 bg-white/20 backdrop-blur-sm text-xs px-3 py-1 rounded-full font-medium">
+                            ⭐ 4.9</div>
+                        <h3 class="text-xl font-bold">CleanStar Express</h3>
+                        <p class="text-brandLight text-sm">HSR Layout, 0.8 km away</p>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center gap-4 text-sm text-gray-500 mb-4">
+                            <span class="flex items-center gap-1"><i class="ri-time-line text-orangeBtn"></i> 12hr
+                                delivery</span>
+                            <span class="flex items-center gap-1"><i class="ri-star-line text-orangeBtn"></i> 4.9 (480
+                                reviews)</span>
+                        </div>
+                        <div class="flex flex-wrap gap-2 mb-5">
+                            <span class="bg-brandBg text-brand text-xs px-3 py-1 rounded-full font-medium">Dry
+                                Clean</span>
+                            <span
+                                class="bg-brandBg text-brand text-xs px-3 py-1 rounded-full font-medium">Ironing</span>
+                            <span
+                                class="bg-brandBg text-brand text-xs px-3 py-1 rounded-full font-medium">Express</span>
+                        </div>
+                        <button
+                            class="w-full bg-orangeBtn hover:bg-orangeHover text-white py-2.5 rounded-xl font-semibold text-sm transition-all hover:scale-[1.02] active:scale-[.98] shadow-sm">Book
+                            Now</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================== -->
+    <!-- ORDER TRACKING SECTION -->
+    <!-- ============================== -->
+    <section id="tracking" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <p class="text-orangeBtn uppercase tracking-widest font-semibold text-sm mb-2">Live Updates</p>
+                <h2 class="text-4xl md:text-5xl font-bold text-brand">Track Your Order</h2>
+                <p class="text-brandLight text-sm mt-3 max-w-xl mx-auto">Stay updated on every step of your laundry
+                    journey in real time.</p>
+            </div>
+
+            <!-- Tracker -->
+            <div class="reveal bg-brandBg rounded-3xl p-8 md:p-12 shadow-inner">
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-6 lg:gap-3">
+                    <!-- Step 1 - Completed -->
+                    <div class="text-center tracker-step">
+                        <div
+                            class="w-10 h-10 mx-auto rounded-full bg-brand text-white flex items-center justify-center shadow-md relative z-10">
+                            <i class="ri-check-line text-lg"></i>
+                        </div>
+                        <p class="text-brand font-semibold text-xs mt-3">Order Placed</p>
+                    </div>
+                    <!-- Step 2 - Completed -->
+                    <div class="text-center tracker-step">
+                        <div
+                            class="w-10 h-10 mx-auto rounded-full bg-brand text-white flex items-center justify-center shadow-md relative z-10">
+                            <i class="ri-check-line text-lg"></i>
+                        </div>
+                        <p class="text-brand font-semibold text-xs mt-3">Partner Assigned</p>
+                    </div>
+                    <!-- Step 3 - Completed -->
+                    <div class="text-center tracker-step">
+                        <div
+                            class="w-10 h-10 mx-auto rounded-full bg-brand text-white flex items-center justify-center shadow-md relative z-10">
+                            <i class="ri-check-line text-lg"></i>
+                        </div>
+                        <p class="text-brand font-semibold text-xs mt-3">Pickup Done</p>
+                    </div>
+                    <!-- Step 4 - Active -->
+                    <div class="text-center tracker-step">
+                        <div
+                            class="w-10 h-10 mx-auto rounded-full bg-orangeBtn text-white flex items-center justify-center shadow-lg relative z-10 pulse-dot">
+                            <i class="ri-loader-4-line text-lg animate-spin"></i>
+                        </div>
+                        <p class="text-orangeBtn font-bold text-xs mt-3">Washing</p>
+                    </div>
+                    <!-- Step 5 - Pending -->
+                    <div class="text-center tracker-step">
+                        <div
+                            class="w-10 h-10 mx-auto rounded-full bg-gray-200 text-gray-400 flex items-center justify-center relative z-10">
+                            <i class="ri-t-shirt-line text-lg"></i>
+                        </div>
+                        <p class="text-gray-400 font-medium text-xs mt-3">Ironing</p>
+                    </div>
+                    <!-- Step 6 - Pending -->
+                    <div class="text-center tracker-step">
+                        <div
+                            class="w-10 h-10 mx-auto rounded-full bg-gray-200 text-gray-400 flex items-center justify-center relative z-10">
+                            <i class="ri-truck-line text-lg"></i>
+                        </div>
+                        <p class="text-gray-400 font-medium text-xs mt-3">Out for Delivery</p>
+                    </div>
+                    <!-- Step 7 - Pending -->
+                    <div class="text-center tracker-step">
+                        <div
+                            class="w-10 h-10 mx-auto rounded-full bg-gray-200 text-gray-400 flex items-center justify-center relative z-10">
+                            <i class="ri-home-smile-line text-lg"></i>
+                        </div>
+                        <p class="text-gray-400 font-medium text-xs mt-3">Delivered</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================== -->
+    <!-- DASHBOARD STATISTICS SECTION -->
+    <!-- ============================== -->
+    <section id="stats" class="py-20 bg-brand relative overflow-hidden">
+        <!-- Decorative circles -->
+        <div class="absolute -top-20 -left-20 w-72 h-72 rounded-full bg-white/5"></div>
+        <div class="absolute -bottom-24 -right-24 w-96 h-96 rounded-full bg-white/5"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-16 reveal">
+                <p class="text-orangeBtn uppercase tracking-widest font-semibold text-sm mb-2">Platform at a Glance</p>
+                <h2 class="text-4xl md:text-5xl font-bold text-white">Dashboard Statistics</h2>
+            </div>
+
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
+                <div
+                    class="reveal bg-white/10 backdrop-blur-sm rounded-2xl p-8 text-center border border-white/10 hover:bg-white/20 transition-all">
+                    <div class="w-14 h-14 mx-auto bg-orangeBtn/20 rounded-xl flex items-center justify-center mb-4">
+                        <i class="ri-shopping-bag-3-line text-2xl text-orangeBtn"></i>
+                    </div>
+                    <h3 class="text-3xl md:text-4xl font-black text-white counter" data-target="15420">0</h3>
+                    <p class="text-brandLight text-sm mt-1">Total Orders</p>
+                </div>
+                <div class="reveal bg-white/10 backdrop-blur-sm rounded-2xl p-8 text-center border border-white/10 hover:bg-white/20 transition-all"
+                    style="transition-delay:.1s">
+                    <div class="w-14 h-14 mx-auto bg-orangeBtn/20 rounded-xl flex items-center justify-center mb-4">
+                        <i class="ri-store-2-line text-2xl text-orangeBtn"></i>
+                    </div>
+                    <h3 class="text-3xl md:text-4xl font-black text-white counter" data-target="230">0</h3>
+                    <p class="text-brandLight text-sm mt-1">Active Partners</p>
+                </div>
+                <div class="reveal bg-white/10 backdrop-blur-sm rounded-2xl p-8 text-center border border-white/10 hover:bg-white/20 transition-all"
+                    style="transition-delay:.2s">
+                    <div class="w-14 h-14 mx-auto bg-orangeBtn/20 rounded-xl flex items-center justify-center mb-4">
+                        <i class="ri-checkbox-circle-line text-2xl text-orangeBtn"></i>
+                    </div>
+                    <h3 class="text-3xl md:text-4xl font-black text-white counter" data-target="14850">0</h3>
+                    <p class="text-brandLight text-sm mt-1">Orders Delivered</p>
+                </div>
+                <div class="reveal bg-white/10 backdrop-blur-sm rounded-2xl p-8 text-center border border-white/10 hover:bg-white/20 transition-all"
+                    style="transition-delay:.3s">
+                    <div class="w-14 h-14 mx-auto bg-orangeBtn/20 rounded-xl flex items-center justify-center mb-4">
+                        <i class="ri-emotion-happy-line text-2xl text-orangeBtn"></i>
+                    </div>
+                    <h3 class="text-3xl md:text-4xl font-black text-white"><span class="counter"
+                            data-target="98">0</span>%</h3>
+                    <p class="text-brandLight text-sm mt-1">Customer Satisfaction</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================== -->
+    <!-- CUSTOMER REVIEWS SECTION -->
+    <!-- ============================== -->
+    <section id="reviews" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <p class="text-orangeBtn uppercase tracking-widest font-semibold text-sm mb-2">What Customers Say</p>
+                <h2 class="text-4xl md:text-5xl font-bold text-brand">Customer Reviews</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Review 1 -->
+                <div
+                    class="reveal bg-brandBg rounded-2xl p-8 relative hover:shadow-lg transition-all border border-transparent hover:border-brandLight/20">
+                    <div
+                        class="absolute -top-4 left-8 w-8 h-8 bg-orangeBtn rounded-full flex items-center justify-center shadow-md">
+                        <i class="ri-double-quotes-l text-white text-sm"></i>
+                    </div>
+                    <div class="flex items-center gap-1 mb-4 mt-2">
+                        <i class="ri-star-fill star-filled"></i>
+                        <i class="ri-star-fill star-filled"></i>
+                        <i class="ri-star-fill star-filled"></i>
+                        <i class="ri-star-fill star-filled"></i>
+                        <i class="ri-star-fill star-filled"></i>
+                    </div>
+                    <p class="text-gray-600 text-sm leading-relaxed mb-6">"The platform matched me with a fantastic
+                        laundry partner. My clothes came back spotless and perfectly ironed within 24 hours!"</p>
+                    <div class="flex items-center gap-3">
+                        <div
+                            class="w-10 h-10 rounded-full bg-brand flex items-center justify-center text-white font-bold text-sm">
+                            A</div>
+                        <div>
+                            <p class="font-semibold text-brand text-sm">Ananya Sharma</p>
+                            <p class="text-gray-400 text-xs">Koramangala, Bangalore</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 2 -->
+                <div class="reveal bg-brandBg rounded-2xl p-8 relative hover:shadow-lg transition-all border border-transparent hover:border-brandLight/20"
+                    style="transition-delay:.1s">
+                    <div
+                        class="absolute -top-4 left-8 w-8 h-8 bg-orangeBtn rounded-full flex items-center justify-center shadow-md">
+                        <i class="ri-double-quotes-l text-white text-sm"></i>
+                    </div>
+                    <div class="flex items-center gap-1 mb-4 mt-2">
+                        <i class="ri-star-fill star-filled"></i>
+                        <i class="ri-star-fill star-filled"></i>
+                        <i class="ri-star-fill star-filled"></i>
+                        <i class="ri-star-fill star-filled"></i>
+                        <i class="ri-star-half-fill star-filled"></i>
+                    </div>
+                    <p class="text-gray-600 text-sm leading-relaxed mb-6">"Love the order tracking feature! I can see
+                        exactly where my laundry is at every stage. So convenient and transparent."</p>
+                    <div class="flex items-center gap-3">
+                        <div
+                            class="w-10 h-10 rounded-full bg-brand flex items-center justify-center text-white font-bold text-sm">
+                            R</div>
+                        <div>
+                            <p class="font-semibold text-brand text-sm">Rahul Mehta</p>
+                            <p class="text-gray-400 text-xs">Indiranagar, Bangalore</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 3 -->
+                <div class="reveal bg-brandBg rounded-2xl p-8 relative hover:shadow-lg transition-all border border-transparent hover:border-brandLight/20"
+                    style="transition-delay:.2s">
+                    <div
+                        class="absolute -top-4 left-8 w-8 h-8 bg-orangeBtn rounded-full flex items-center justify-center shadow-md">
+                        <i class="ri-double-quotes-l text-white text-sm"></i>
+                    </div>
+                    <div class="flex items-center gap-1 mb-4 mt-2">
+                        <i class="ri-star-fill star-filled"></i>
+                        <i class="ri-star-fill star-filled"></i>
+                        <i class="ri-star-fill star-filled"></i>
+                        <i class="ri-star-fill star-filled"></i>
+                        <i class="ri-star-fill star-filled"></i>
+                    </div>
+                    <p class="text-gray-600 text-sm leading-relaxed mb-6">"Being able to compare prices and ratings of
+                        different laundry services is a game changer. Highly recommended!"</p>
+                    <div class="flex items-center gap-3">
+                        <div
+                            class="w-10 h-10 rounded-full bg-brand flex items-center justify-center text-white font-bold text-sm">
+                            P</div>
+                        <div>
+                            <p class="font-semibold text-brand text-sm">Priya Nair</p>
+                            <p class="text-gray-400 text-xs">HSR Layout, Bangalore</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================== -->
+    <!-- PARTNER REGISTRATION SECTION -->
+    <!-- ============================== -->
+    <section id="register-partner" class="py-20 bg-brandBg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row gap-12 items-start">
+                <!-- Left Info -->
+                <div class="w-full lg:w-2/5 reveal">
+                    <p class="text-orangeBtn uppercase tracking-widest font-semibold text-sm mb-2">Grow Your Business
+                    </p>
+                    <h2 class="text-4xl md:text-5xl font-bold text-brand mb-6">Become a Laundry Partner</h2>
+                    <p class="text-brandLight text-sm leading-relaxed mb-8">Join our growing network of trusted laundry
+                        service providers. Reach thousands of new customers and manage orders through our easy-to-use
+                        dashboard.</p>
+                    <div class="space-y-4">
+                        <div class="flex items-start gap-3">
+                            <div
+                                class="w-10 h-10 bg-brand/10 rounded-xl flex items-center justify-center shrink-0 mt-0.5">
+                                <i class="ri-user-add-line text-brand text-lg"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-brand text-sm">Easy Onboarding</h4>
+                                <p class="text-gray-500 text-xs">Register in minutes and start receiving orders the same
+                                    day.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div
+                                class="w-10 h-10 bg-brand/10 rounded-xl flex items-center justify-center shrink-0 mt-0.5">
+                                <i class="ri-line-chart-line text-brand text-lg"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-brand text-sm">Grow Revenue</h4>
+                                <p class="text-gray-500 text-xs">Access a large customer base without spending on
+                                    marketing.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div
+                                class="w-10 h-10 bg-brand/10 rounded-xl flex items-center justify-center shrink-0 mt-0.5">
+                                <i class="ri-dashboard-3-line text-brand text-lg"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-brand text-sm">Partner Dashboard</h4>
+                                <p class="text-gray-500 text-xs">Manage orders, track payments, and view analytics in
+                                    one place.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Registration Form -->
+                <div class="w-full lg:w-3/5 reveal" style="transition-delay:.15s">
+                    <div class="bg-white rounded-3xl p-8 md:p-10 shadow-xl">
+                        <h3 class="text-2xl font-bold text-brand mb-6">Register Your Laundry Business</h3>
+                        <form id="partner-registration-form" class="space-y-5">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Business Name</label>
+                                    <input type="text" placeholder="e.g. SparkleWash Laundry"
+                                        class="w-full border border-gray-200 rounded-xl px-4 py-2.5 focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand transition-colors bg-gray-50 text-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Owner Name</label>
+                                    <input type="text" placeholder="Full name"
+                                        class="w-full border border-gray-200 rounded-xl px-4 py-2.5 focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand transition-colors bg-gray-50 text-sm">
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                                    <input type="tel" placeholder="+91 XXXXX XXXXX"
+                                        class="w-full border border-gray-200 rounded-xl px-4 py-2.5 focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand transition-colors bg-gray-50 text-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                                    <input type="email" placeholder="business@email.com"
+                                        class="w-full border border-gray-200 rounded-xl px-4 py-2.5 focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand transition-colors bg-gray-50 text-sm">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Business Address</label>
+                                <input type="text" placeholder="Full address with area and pincode"
+                                    class="w-full border border-gray-200 rounded-xl px-4 py-2.5 focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand transition-colors bg-gray-50 text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Services Offered</label>
+                                <div class="flex flex-wrap gap-3">
+                                    <label
+                                        class="flex items-center gap-2 bg-brandBg px-4 py-2 rounded-xl cursor-pointer hover:bg-brand/10 transition-colors text-sm">
+                                        <input type="checkbox" class="accent-brand"> Wash & Fold
+                                    </label>
+                                    <label
+                                        class="flex items-center gap-2 bg-brandBg px-4 py-2 rounded-xl cursor-pointer hover:bg-brand/10 transition-colors text-sm">
+                                        <input type="checkbox" class="accent-brand"> Dry Cleaning
+                                    </label>
+                                    <label
+                                        class="flex items-center gap-2 bg-brandBg px-4 py-2 rounded-xl cursor-pointer hover:bg-brand/10 transition-colors text-sm">
+                                        <input type="checkbox" class="accent-brand"> Ironing
+                                    </label>
+                                    <label
+                                        class="flex items-center gap-2 bg-brandBg px-4 py-2 rounded-xl cursor-pointer hover:bg-brand/10 transition-colors text-sm">
+                                        <input type="checkbox" class="accent-brand"> Steam Press
+                                    </label>
+                                    <label
+                                        class="flex items-center gap-2 bg-brandBg px-4 py-2 rounded-xl cursor-pointer hover:bg-brand/10 transition-colors text-sm">
+                                        <input type="checkbox" class="accent-brand"> Express Service
+                                    </label>
+                                </div>
+                            </div>
+                            <button type="button" id="register-partner-btn"
+                                class="w-full bg-brand hover:bg-brand/90 text-white font-semibold py-3.5 rounded-xl transition-all shadow-lg shadow-brand/20 flex items-center justify-center gap-2 text-sm hover:scale-[1.01] active:scale-[.99]">
+                                <i class="ri-store-2-line text-lg"></i> Register as Partner
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-brand rounded-3xl overflow-hidden shadow-2xl flex flex-col lg:flex-row">
+
+                <!-- Contact Info -->
+                <div class="w-full lg:w-2/5 p-10 md:p-12 text-white bg-brand relative overflow-hidden">
+                    <div
+                        class="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white to-transparent">
+                    </div>
+                    <div class="relative z-10">
+                        <h3 class="text-3xl font-bold mb-2">Get in Touch</h3>
+                        <p class="text-brandLight text-sm mb-10">We'd love to hear from you. Reach out to us for any
+                            inquiries.</p>
+
+                        <div class="space-y-6">
+                            <div class="flex items-center gap-4">
+                                <div
+                                    class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center shrink-0">
+                                    <i class="ri-map-pin-2-line text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium text-sm text-brandLight mb-0.5">Location</h4>
+                                    <p class="text-sm"><S class="G PALAYA"></S>S G PALAYA</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-4">
+                                <div
+                                    class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center shrink-0">
+                                    <i class="ri-phone-line text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium text-sm text-brandLight mb-0.5">Phone</h4>
+                                    <p class="text-sm">8075898177</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-4">
+                                <div
+                                    class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center shrink-0">
+                                    <i class="ri-mail-line text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium text-sm text-brandLight mb-0.5">Email</h4>
+                                    <p class="text-sm">ELITECLEAN@gmail.com</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div class="w-full lg:w-3/5 p-10 md:p-12 bg-white">
+                    <h3 class="text-2xl font-bold text-brand mb-6">Send a Message</h3>
+                    <form class="space-y-5">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">First Name</label>
+                                <input type="text"
+                                    class="w-full border border-gray-200 rounded-lg px-4 py-2.5 focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand transition-colors bg-gray-50">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
+                                <input type="text"
+                                    class="w-full border border-gray-200 rounded-lg px-4 py-2.5 focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand transition-colors bg-gray-50">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                            <input type="email"
+                                class="w-full border border-gray-200 rounded-lg px-4 py-2.5 focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand transition-colors bg-gray-50">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Message</label>
+                            <textarea rows="4"
+                                class="w-full border border-gray-200 rounded-lg px-4 py-2.5 focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand transition-colors bg-gray-50 resize-none"></textarea>
+                        </div>
+                        <button type="button"
+                            class="bg-brand hover:bg-brand/90 text-white font-medium px-8 py-3 rounded-lg transition-colors shadow-lg shadow-brand/20 w-full sm:w-auto">
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-brand text-white py-12 lg:py-16 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+                <!-- Brand Info -->
+                <div class="col-span-1 lg:col-span-1">
+                    <div class="flex items-center gap-2 mb-6">
+                        <img src="C:\Users\harin\OneDrive\Desktop\laundary app\loundery logo.png" alt="Laundry Logo"
+                            class="h-10 w-10 rounded-md bg-white p-1">
+                        <div>
+                            <h2 class="font-bold text-lg leading-none text-white">ELITE</h2>
+                            <p class="font-medium text-sm leading-none text-brandLight">CLEAN</p>
+                        </div>
+                    </div>
+                    <p class="text-brandLight text-sm mb-6 leading-relaxed">
+                        Your one-stop platform for finding, comparing, and booking laundry services from trusted
+                        partners near you.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#"
+                            class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-orangeBtn transition-colors">
+                            <i class="ri-facebook-fill text-white"></i>
+                        </a>
+                        <a href="#"
+                            class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-orangeBtn transition-colors">
+                            <i class="ri-twitter-x-line text-white"></i>
+                        </a>
+                        <a href="#"
+                            class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-orangeBtn transition-colors">
+                            <i class="ri-instagram-line text-white"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="font-bold text-lg mb-6 text-white">Quick Links</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#home"
+                                class="text-brandLight hover:text-white transition-colors text-sm flex items-center gap-2"><i
+                                    class="ri-arrow-right-s-line"></i> Home</a></li>
+                        <li><a href="#how-it-works"
+                                class="text-brandLight hover:text-white transition-colors text-sm flex items-center gap-2"><i
+                                    class="ri-arrow-right-s-line"></i> How It Works</a></li>
+                        <li><a href="#partners"
+                                class="text-brandLight hover:text-white transition-colors text-sm flex items-center gap-2"><i
+                                    class="ri-arrow-right-s-line"></i> Partners</a></li>
+                        <li><a href="#tracking"
+                                class="text-brandLight hover:text-white transition-colors text-sm flex items-center gap-2"><i
+                                    class="ri-arrow-right-s-line"></i> Track Order</a></li>
+                        <li><a href="#register-partner"
+                                class="text-brandLight hover:text-white transition-colors text-sm flex items-center gap-2"><i
+                                    class="ri-arrow-right-s-line"></i> Become a Partner</a></li>
+                        <li><a href="#contact"
+                                class="text-brandLight hover:text-white transition-colors text-sm flex items-center gap-2"><i
+                                    class="ri-arrow-right-s-line"></i> Contact</a></li>
+                    </ul>
+                </div>
+
+                <!-- Services -->
+                <div>
+                    <h3 class="font-bold text-lg mb-6 text-white">Our Services</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#"
+                                class="text-brandLight hover:text-white transition-colors text-sm flex items-center gap-2"><i
+                                    class="ri-arrow-right-s-line"></i> Dry Cleaning</a></li>
+                        <li><a href="#"
+                                class="text-brandLight hover:text-white transition-colors text-sm flex items-center gap-2"><i
+                                    class="ri-arrow-right-s-line"></i> Wash & Fold</a></li>
+                        <li><a href="#"
+                                class="text-brandLight hover:text-white transition-colors text-sm flex items-center gap-2"><i
+                                    class="ri-arrow-right-s-line"></i> Ironing Services</a></li>
+                        <li><a href="#"
+                                class="text-brandLight hover:text-white transition-colors text-sm flex items-center gap-2"><i
+                                    class="ri-arrow-right-s-line"></i> Express Laundry</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info -->
+                <div>
+                    <h3 class="font-bold text-lg mb-6 text-white">Contact Info</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3 text-sm">
+                            <i class="ri-map-pin-line text-orangeBtn mt-0.5 text-lg"></i>
+                            <span class="text-brandLight"> S G PALLAYA BANGALORE 560083</span>
+                        </li>
+                        <li class="flex items-start gap-3 text-sm">
+                            <i class="ri-phone-line text-orangeBtn mt-0.5 text-lg"></i>
+                            <span class="text-brandLight">+91 8075898177</span>
+                        </li>
+                        <li class="flex items-start gap-3 text-sm">
+                            <i class="ri-mail-line text-orangeBtn mt-0.5 text-lg"></i>
+                            <span class="text-brandLight">ELITECLEAN@gmail.com</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div
+                class="border-t border-white/10 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-brandLight">
+                <p>&copy; 2026 Elite Clean — Laundry Aggregator Platform. All rights reserved.</p>
+                <div class="flex gap-4">
+                    <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+                    <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile Menu Script logic -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Mobile menu toggle
+            const mobileMenuBtn = document.querySelector('button.md\\:hidden');
+            const nav = document.querySelector('nav');
+            mobileMenuBtn.addEventListener('click', () => {
+                nav.classList.toggle('hidden');
+                nav.classList.toggle('absolute');
+                nav.classList.toggle('top-20');
+                nav.classList.toggle('left-0');
+                nav.classList.toggle('w-full');
+                nav.classList.toggle('bg-white');
+                nav.classList.toggle('flex-col');
+                nav.classList.toggle('p-6');
+                nav.classList.toggle('shadow-lg');
+                nav.classList.toggle('z-50');
+            });
+
+            // Scroll-reveal animations
+            const revealEls = document.querySelectorAll('.reveal');
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        revealObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.15 });
+            revealEls.forEach(el => revealObserver.observe(el));
+
+            // Counter animation
+            const counters = document.querySelectorAll('.counter');
+            const counterObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const el = entry.target;
+                        const target = parseInt(el.getAttribute('data-target'));
+                        const duration = 2000;
+                        const step = Math.ceil(target / (duration / 16));
+                        let current = 0;
+                        const timer = setInterval(() => {
+                            current += step;
+                            if (current >= target) {
+                                current = target;
+                                clearInterval(timer);
+                            }
+                            el.textContent = current.toLocaleString();
+                        }, 16);
+                        counterObserver.unobserve(el);
+                    }
+                });
+            }, { threshold: 0.5 });
+            counters.forEach(el => counterObserver.observe(el));
+        });
+    </script>
+</body>
+
+</html>
