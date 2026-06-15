@@ -11,6 +11,9 @@
     <!-- Tailwind CSS v3 -->
     <script src="https://cdn.tailwindcss.com"></script>
 
+    <!-- Razorpay Checkout for Payment API -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
     <!-- Google Fonts for modern typography -->
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap"
         rel="stylesheet">
@@ -333,11 +336,16 @@
 
                         <!-- Location Search -->
                         <div class="flex flex-col sm:flex-row gap-3 max-w-lg mb-6">
-                            <div class="flex-grow relative">
-                                <i
-                                    class="ri-map-pin-line absolute left-4 top-1/2 -translate-y-1/2 text-orangeBtn text-lg"></i>
+                            <div class="flex-grow relative flex items-center">
+                                <i class="ri-map-pin-line absolute left-4 text-orangeBtn text-lg"></i>
                                 <input id="location-search" type="text" placeholder="Enter your location or area..."
-                                    class="w-full pl-11 pr-4 py-3.5 rounded-xl border border-gray-200 bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-brand/40 focus:border-brand text-sm transition-all">
+                                    class="w-full pl-11 pr-12 py-3.5 rounded-xl border border-gray-200 bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-brand/40 focus:border-brand text-sm transition-all">
+                                <!-- New GPS Button for Geolocation API -->
+                                <button id="detect-location-btn"
+                                    class="absolute right-3 text-brandLight hover:text-brand transition-colors"
+                                    title="Detect Location">
+                                    <i class="ri-gps-line text-lg"></i>
+                                </button>
                             </div>
                             <button id="book-pickup-btn"
                                 class="bg-orangeBtn hover:bg-orangeHover text-white px-8 py-3.5 rounded-xl font-semibold text-sm transition-all shadow-lg shadow-orangeBtn/30 flex items-center justify-center gap-2 whitespace-nowrap hover:scale-[1.03] active:scale-[.98]">
@@ -395,66 +403,7 @@
         </div>
     </div>
 
-    <!-- Services Section -->
-    <section id="services" class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16 reveal">
-                <p class="text-orangeBtn uppercase tracking-widest font-semibold text-sm mb-2">Services Available on Our
-                    Platform</p>
-                <h2 class="text-4xl md:text-5xl font-bold text-brand">Services Offered by Our Partners</h2>
-                <p class="text-brandLight text-sm mt-3 max-w-xl mx-auto">All our verified laundry partners offer these
-                    core services. Compare and choose the one that fits you best.</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Service 1 -->
-                <div
-                    class="bg-brandBg rounded-2xl p-8 hover:shadow-xl transition-all duration-300 group border border-transparent hover:border-brandLight/30">
-                    <div
-                        class="w-16 h-16 bg-white rounded-full flex items-center justify-center mb-6 shadow-sm group-hover:scale-110 transition-transform">
-                        <i class="ri-t-shirt-2-line text-3xl text-orangeBtn"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-brand mb-3">Dry Cleaning</h3>
-                    <p class="text-gray-600 text-sm leading-relaxed mb-6">Expert care for your delicate fabrics. We use
-                        eco-friendly solvents to remove tough stains without damaging your clothes.</p>
-                    <a href="#"
-                        class="text-brand font-semibold text-sm flex items-center gap-1 hover:text-orangeBtn transition-colors">Learn
-                        more <i class="ri-arrow-right-line"></i></a>
-                </div>
-
-                <!-- Service 2 -->
-                <div
-                    class="bg-brandBg rounded-2xl p-8 hover:shadow-xl transition-all duration-300 group border border-transparent hover:border-brandLight/30">
-                    <div
-                        class="w-16 h-16 bg-white rounded-full flex items-center justify-center mb-6 shadow-sm group-hover:scale-110 transition-transform">
-                        <i class="ri-drop-line text-3xl text-orangeBtn"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-brand mb-3">Wash & Fold</h3>
-                    <p class="text-gray-600 text-sm leading-relaxed mb-6">Everyday laundry done right. We sort, wash,
-                        dry, and neatly fold your clothes so they are ready for the closet.</p>
-                    <a href="#"
-                        class="text-brand font-semibold text-sm flex items-center gap-1 hover:text-orangeBtn transition-colors">Learn
-                        more <i class="ri-arrow-right-line"></i></a>
-                </div>
-
-                <!-- Service 3 -->
-                <div
-                    class="bg-brandBg rounded-2xl p-8 hover:shadow-xl transition-all duration-300 group border border-transparent hover:border-brandLight/30">
-                    <div
-                        class="w-16 h-16 bg-white rounded-full flex items-center justify-center mb-6 shadow-sm group-hover:scale-110 transition-transform">
-                        <i class="ri-magic-line text-3xl text-orangeBtn"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-brand mb-3">Ironing Services</h3>
-                    <p class="text-gray-600 text-sm leading-relaxed mb-6">Crisp, wrinkle-free clothes delivered to your
-                        door. Perfect for business wear, formal attire, and everyday shirts.</p>
-                    <a href="#"
-                        class="text-brand font-semibold text-sm flex items-center gap-1 hover:text-orangeBtn transition-colors">Learn
-                        more <i class="ri-arrow-right-line"></i></a>
-                </div>
-            </div>
-        </div>
-    </section>
-
+    
     <!-- Gallery Section -->
     <section id="gallery" class="py-20 bg-brandBg">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -685,6 +634,65 @@
             </div>
         </div>
     </section>
+<!-- Services Section -->
+    <section id="services" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <p class="text-orangeBtn uppercase tracking-widest font-semibold text-sm mb-2">Services Available on Our
+                    Platform</p>
+                <h2 class="text-4xl md:text-5xl font-bold text-brand">Services Offered by Our Partners</h2>
+                <p class="text-brandLight text-sm mt-3 max-w-xl mx-auto">All our verified laundry partners offer these
+                    core services. Compare and choose the one that fits you best.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Service 1 -->
+                <div
+                    class="bg-brandBg rounded-2xl p-8 hover:shadow-xl transition-all duration-300 group border border-transparent hover:border-brandLight/30">
+                    <div
+                        class="w-16 h-16 bg-white rounded-full flex items-center justify-center mb-6 shadow-sm group-hover:scale-110 transition-transform">
+                        <i class="ri-t-shirt-2-line text-3xl text-orangeBtn"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-brand mb-3">Dry Cleaning</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed mb-6">Expert care for your delicate fabrics. We use
+                        eco-friendly solvents to remove tough stains without damaging your clothes.</p>
+                    <a href="#"
+                        class="text-brand font-semibold text-sm flex items-center gap-1 hover:text-orangeBtn transition-colors">Learn
+                        more <i class="ri-arrow-right-line"></i></a>
+                </div>
+
+                <!-- Service 2 -->
+                <div
+                    class="bg-brandBg rounded-2xl p-8 hover:shadow-xl transition-all duration-300 group border border-transparent hover:border-brandLight/30">
+                    <div
+                        class="w-16 h-16 bg-white rounded-full flex items-center justify-center mb-6 shadow-sm group-hover:scale-110 transition-transform">
+                        <i class="ri-drop-line text-3xl text-orangeBtn"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-brand mb-3">Wash & Fold</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed mb-6">Everyday laundry done right. We sort, wash,
+                        dry, and neatly fold your clothes so they are ready for the closet.</p>
+                    <a href="#"
+                        class="text-brand font-semibold text-sm flex items-center gap-1 hover:text-orangeBtn transition-colors">Learn
+                        more <i class="ri-arrow-right-line"></i></a>
+                </div>
+
+                <!-- Service 3 -->
+                <div
+                    class="bg-brandBg rounded-2xl p-8 hover:shadow-xl transition-all duration-300 group border border-transparent hover:border-brandLight/30">
+                    <div
+                        class="w-16 h-16 bg-white rounded-full flex items-center justify-center mb-6 shadow-sm group-hover:scale-110 transition-transform">
+                        <i class="ri-magic-line text-3xl text-orangeBtn"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-brand mb-3">Ironing Services</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed mb-6">Crisp, wrinkle-free clothes delivered to your
+                        door. Perfect for business wear, formal attire, and everyday shirts.</p>
+                    <a href="#"
+                        class="text-brand font-semibold text-sm flex items-center gap-1 hover:text-orangeBtn transition-colors">Learn
+                        more <i class="ri-arrow-right-line"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- ============================== -->
     <!-- ORDER TRACKING SECTION -->
@@ -698,8 +706,39 @@
                     journey in real time.</p>
             </div>
 
+            <!-- Order Info & Clipboard section -->
+            <div
+                class="flex flex-col sm:flex-row justify-between items-center bg-white p-4 rounded-2xl shadow-sm mb-6 border border-gray-100 reveal">
+                <div class="flex items-center gap-4 mb-4 sm:mb-0">
+                    <div>
+                        <p class="text-xs text-brandLight">Order ID</p>
+                        <p class="font-bold text-brand" id="order-id">#ORD-84920</p>
+                    </div>
+                    <button onclick="copyToClipboard('order-id')"
+                        class="text-xs bg-brandBg text-brand px-3 py-1.5 rounded-lg hover:bg-brand/10 transition flex items-center gap-1">
+                        <i class="ri-file-copy-line"></i> Copy
+                    </button>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div>
+                        <p class="text-xs text-brandLight">Tracking ID</p>
+                        <p class="font-bold text-brand" id="tracking-id">TRK-9921-X</p>
+                    </div>
+                    <button onclick="copyToClipboard('tracking-id')"
+                        class="text-xs bg-brandBg text-brand px-3 py-1.5 rounded-lg hover:bg-brand/10 transition flex items-center gap-1">
+                        <i class="ri-file-copy-line"></i> Copy
+                    </button>
+                </div>
+            </div>
+
             <!-- Tracker -->
-            <div class="reveal bg-brandBg rounded-3xl p-8 md:p-12 shadow-inner">
+            <div class="reveal bg-brandBg rounded-3xl p-8 md:p-12 shadow-inner relative">
+                <!-- Clipboard Success Message (Hidden by default) -->
+                <div id="copy-toast"
+                    class="absolute -top-12 right-0 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg opacity-0 transition-opacity z-50 pointer-events-none">
+                    <i class="ri-check-line mr-2"></i>Copied to clipboard!
+                </div>
+
                 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-6 lg:gap-3">
                     <!-- Step 1 - Completed -->
                     <div class="text-center tracker-step">
@@ -1226,6 +1265,31 @@
         </div>
     </footer>
 
+    <!-- Order Confirmation & QR Modal -->
+    <div id="order-modal"
+        class="fixed inset-0 bg-black/50 z-[60] hidden flex items-center justify-center backdrop-blur-sm">
+        <div class="bg-white rounded-3xl p-8 max-w-sm w-full mx-4 text-center transform scale-95 opacity-0 transition-all duration-300"
+            id="modal-content">
+            <div
+                class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4 text-green-500">
+                <i class="ri-check-double-line text-3xl"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-brand mb-2">Payment Successful!</h3>
+            <p class="text-gray-500 text-sm mb-6">Your order has been placed. Show this QR code to our pickup executive.
+            </p>
+
+            <!-- QR Code Container -->
+            <div class="bg-gray-50 p-4 rounded-xl inline-block mb-6 border border-gray-100">
+                <img id="qr-code-img" src="" alt="Order QR Code" class="w-32 h-32 mx-auto">
+            </div>
+
+            <button id="close-modal-btn"
+                class="w-full bg-brand text-white py-3 rounded-xl font-semibold hover:bg-brand/90 transition-colors">
+                View Tracking
+            </button>
+        </div>
+    </div>
+
     <!-- Mobile Menu Script logic -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -1282,6 +1346,7 @@
             counters.forEach(el => counterObserver.observe(el));
         });
     </script>
+    <script src="script.js"></script>
 </body>
 
 </html>
