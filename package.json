@@ -1,0 +1,27 @@
+{
+  "name": "loundery_app-2.0",
+  "version": "1.0.0",
+  "description": "��#\u0000 \u0000L\u0000O\u0000U\u0000N\u0000D\u0000E\u0000R\u0000Y\u0000_\u0000A\u0000P\u0000P\u0000-\u00002\u0000.\u00000\u0000\r\u0000 \u0000",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/harinanda000-svg/LOUNDERY_APP-2.0.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/harinanda000-svg/LOUNDERY_APP-2.0/issues"
+  },
+  "homepage": "https://github.com/harinanda000-svg/LOUNDERY_APP-2.0#readme",
+  "dependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "express": "^5.2.1",
+    "json-server": "^1.0.0-beta.15",
+    "tailwindcss": "^4.3.3"
+  }
+}

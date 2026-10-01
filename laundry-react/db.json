@@ -1,0 +1,64 @@
+{
+  "partners": [
+    {
+      "id": "1",
+      "name": "Sparkle Clean Laundry",
+      "rating": 4.8,
+      "address": "123 Main St, City Center",
+      "services": [
+        "Wash",
+        "Dry Cleaning",
+        "Ironing"
+      ]
+    },
+    {
+      "id": "2",
+      "name": "Fresh & Fold",
+      "rating": 4.5,
+      "address": "456 Market St, Uptown",
+      "services": [
+        "Wash",
+        "Ironing"
+      ]
+    },
+    {
+      "id": "3",
+      "name": "Premium Wash Co.",
+      "rating": 4.9,
+      "address": "789 Elite Ave, Downtown",
+      "services": [
+        "Wash",
+        "Dry Cleaning",
+        "Ironing"
+      ]
+    }
+  ],
+  "bookings": [
+    {
+      "customerName": "harinand",
+      "phoneNumber": "8075898177",
+      "email": "hari@gmail.com",
+      "pickupAddress": "koramagala",
+      "laundryType": "Dry Cleaning",
+      "paymentMethod": "Online Payment",
+      "pickupDate": "2026-08-08",
+      "pickupTime": "04:34",
+      "partnerName": "Fresh & Fold",
+      "id": "wIObnXx5Oms"
+    },
+    {
+      "customerName": "Harinand.A",
+      "phoneNumber": "8075898176",
+      "email": "hari.nand.a000@gmail.com",
+      "pickupAddress": "Valayam",
+      "laundryType": "Wash",
+      "paymentMethod": "Cash on Delivery",
+      "pickupDate": "2026-08-08",
+      "pickupTime": "08:45",
+      "partnerName": "Fresh & Fold",
+      "id": "VV79khi842c"
+    }
+  ],
+  "users": [],
+  "$schema": "./node_modules/json-server/schema.json"
+}

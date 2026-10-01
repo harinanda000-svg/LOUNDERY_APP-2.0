@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+
+    <title>Elite Clean</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+    <script>
+      window.addEventListener('error', function(e) {
+        document.body.innerHTML += '<div style="color:red; font-family:sans-serif; padding: 20px; position:absolute; top:0; z-index:9999; background:white; width:100%; border-bottom: 2px solid red;">' + 
+          '<h3>Global Error</h3><pre>' + e.message + '\\n' + (e.error ? e.error.stack : '') + '</pre></div>';
+      });
+      window.addEventListener('unhandledrejection', function(e) {
+        document.body.innerHTML += '<div style="color:red; font-family:sans-serif; padding: 20px; position:absolute; top:0; z-index:9999; background:white; width:100%; border-bottom: 2px solid red;">' + 
+          '<h3>Unhandled Promise Rejection</h3><pre>' + e.reason + '</pre></div>';
+      });
+    </script>
+  </body>
+</html>

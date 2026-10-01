@@ -1,0 +1,10 @@
+:root{--brand:#086e96;--brandLight:#73a5bd;--brandBg:#eef6fc;--orangeBtn:#fa7354}
+*{box-sizing:border-box}
+body{font-family:Outfit, sans-serif;background:var(--brandBg);margin:0}
+.text-brand{color:var(--brand)}
+.bg-brand{background:var(--brand)}
+.bg-brandBg{background:var(--brandBg)}
+.orangeBtn{background:var(--orangeBtn)}
+
+/* small utilities used by components */
+.hero-img-wrapper img{width:100%;height:auto;display:block}

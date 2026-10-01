@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elite Clean - Sign Up</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: '#086e96', brandLight: '#73a5bd', brandBg: '#eef6fc', orangeBtn: '#fa7354', orangeHover: '#e36243',
+                    },
+                    fontFamily: { sans: ['Outfit', 'sans-serif'], }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-brandBg min-h-screen flex items-center justify-center p-4">
+    <script>
+        if (localStorage.getItem('currentUser')) {
+            window.location.href = 'home.html';
+        }
+    </script>
+
+    <div class="bg-white p-8 rounded-3xl shadow-xl max-w-md w-full border border-gray-100">
+        <div class="text-center mb-8">
+            <a href="index.html" class="inline-flex items-center justify-center gap-2 mb-6">
+                <img src="loundery logo.png" alt="Logo"
+                    class="h-10 w-10 rounded bg-white p-1 shadow-sm border border-gray-100">
+                <div class="text-left">
+                    <h1 class="font-bold text-lg leading-none text-brand">ELITE</h1>
+                    <p class="font-medium text-xs leading-none text-brand">CLEAN</p>
+                </div>
+            </a>
+            <h2 class="text-2xl font-bold text-brand">Create an Account</h2>
+            <p class="text-brandLight text-sm mt-2">Join us for a hassle-free laundry experience</p>
+        </div>
+
+        <form id="signup-form" class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1.5 ml-1">Full Name</label>
+                <div class="relative">
+                    <i class="ri-user-line absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                    <input type="text" id="name" required
+                        class="w-full pl-11 pr-4 py-3.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-brand/40 focus:border-brand text-sm transition-all"
+                        placeholder="Enter Your Name">
+                </div>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1.5 ml-1">Email</label>
+                <div class="relative">
+                    <i class="ri-mail-line absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                    <input type="email" id="email" required
+                        class="w-full pl-11 pr-4 py-3.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-brand/40 focus:border-brand text-sm transition-all"
+                        placeholder="your@email.com">
+                </div>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1.5 ml-1">Password</label>
+                <div class="relative">
+                    <i class="ri-lock-line absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                    <input type="password" id="password" required
+                        class="w-full pl-11 pr-4 py-3.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-brand/40 focus:border-brand text-sm transition-all"
+                        placeholder="••••••••">
+                </div>
+            </div>
+            <div id="error-msg"
+                class="text-red-500 text-sm hidden text-center bg-red-50 py-2 rounded-lg border border-red-100">User
+                already exists</div>
+            <button type="submit"
+                class="w-full bg-brand hover:bg-brand/90 text-white py-4 rounded-xl font-bold transition-all shadow-md shadow-brand/20 mt-4 hover:scale-[1.02]">Sign
+                Up</button>
+        </form>
+
+        <p class="text-center text-sm text-gray-500 mt-8">
+            Already have an account? <a href="login.html" class="text-orangeBtn font-semibold hover:underline">Login</a>
+        </p>
+    </div>
+
+    <script>
+        document.getElementById('signup-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+
+            if (users.some(u => u.email === email)) {
+                document.getElementById('error-msg').classList.remove('hidden');
+                return;
+            }
+
+            const newUser = { name, email, password };
+            users.push(newUser);
+            localStorage.setItem('users', JSON.stringify(users));
+            localStorage.setItem('currentUser', JSON.stringify(newUser));
+
+            window.location.href = 'home.html';
+        });
+    </script>
+</body>
+
+</html>
