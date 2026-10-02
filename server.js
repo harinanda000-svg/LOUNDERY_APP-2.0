@@ -4,15 +4,17 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Allows Express to read JSON sent from login.html
 app.use(express.json());
+app.use(express.static(path.join(__dirname)));
 
-// Makes your current project folder available in the browser
-app.use(express.static(__dirname));
-
-// Explicit route for homepage
+// Root route
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+// Dynamic route for html files
+app.get('/:page.html', (req, res) => {
+    res.sendFile(path.join(__dirname, `${req.params.page}.html`));
 });
 
 // Demo users for Express login
