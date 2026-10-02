@@ -1,13 +1,39 @@
 {
   "version": 2,
-  "functions": {
-    "server.js": {
-      "includeFiles": "**"
+  "builds": [
+    {
+      "src": "api/login.js",
+      "use": "@vercel/node"
     },
-    "api/*.js": {
-      "includeFiles": "**"
+    {
+      "src": "*.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "*.css",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "*.js",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "*.jpg",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "*.png",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "*.webp",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "*.jpeg",
+      "use": "@vercel/static"
     }
-  },
+  ],
   "routes": [
     {
       "src": "/api/login",
@@ -15,11 +41,7 @@
     },
     {
       "src": "/login",
-      "methods": ["POST"],
       "dest": "/api/login.js"
-    },
-    {
-      "handle": "filesystem"
     },
     {
       "src": "/",
