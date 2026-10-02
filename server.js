@@ -1,21 +1,44 @@
 const express = require('express');
 const path = require('path');
+const fs = require('fs');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
-app.use(express.static(path.join(__dirname)));
+
+// Helper to find file in __dirname or cwd
+function getFilePath(filename) {
+    const p1 = path.join(__dirname, filename);
+    if (fs.existsSync(p1)) return p1;
+    const p2 = path.join(process.cwd(), filename);
+    if (fs.existsSync(p2)) return p2;
+    return p1;
+}
+
+// Serve static assets
+app.use(express.static(__dirname));
+app.use(express.static(process.cwd()));
 
 // Root route
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
+    res.sendFile(getFilePath('index.html'));
 });
 
-// Dynamic route for html files
+// Match html routes with extension
 app.get('/:page.html', (req, res) => {
-    res.sendFile(path.join(__dirname, `${req.params.page}.html`));
+    const filePath = getFilePath(`${req.params.page}.html`);
+    if (fs.existsSync(filePath)) {
+        return res.sendFile(filePath);
+    }
+    res.status(404).send('Page not found');
 });
+
+// Match clean URL routes without extension
+app.get('/home', (req, res) => res.sendFile(getFilePath('home.html')));
+app.get('/booking', (req, res) => res.sendFile(getFilePath('booking.html')));
+app.get('/login', (req, res) => res.sendFile(getFilePath('login.html')));
+app.get('/signup', (req, res) => res.sendFile(getFilePath('signup.html')));
 
 // Demo users for Express login
 const users = [
@@ -28,7 +51,7 @@ const users = [
 
 // Login API route
 app.post('/login', (req, res) => {
-    const { email, password } = req.body;
+    const { email, password } = req.body || {};
 
     const user = users.find(
         (item) => item.email === email && item.password === password
