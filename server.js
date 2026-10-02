@@ -2,13 +2,18 @@ const express = require('express');
 const path = require('path');
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // Allows Express to read JSON sent from login.html
 app.use(express.json());
 
 // Makes your current project folder available in the browser
 app.use(express.static(__dirname));
+
+// Explicit route for homepage
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
 
 // Demo users for Express login
 const users = [
@@ -44,6 +49,10 @@ app.post('/login', (req, res) => {
     });
 });
 
-app.listen(PORT, () => {
-    console.log(`Server running at http://localhost:${PORT}`);
-});
+if (require.main === module) {
+    app.listen(PORT, () => {
+        console.log(`Server running at http://localhost:${PORT}`);
+    });
+}
+
+module.exports = app;
